@@ -33,14 +33,16 @@
   },
   "dependencies": {
     "@antv/li-sdk": "0.x",
+    "antd-mobile": "^5.30.0",
+    "antd-mobile-icons": "^0.3.0",
     "classnames": "^2.3.1",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
-    "@antv/li-core-assets": "0.x",
-    "@antv/li-editor": "0.x",
     "@antv/l7": "^2.9.26",
     "@antv/larkmap": "^1.3.6",
+    "@antv/li-core-assets": "0.x",
+    "@antv/li-editor": "0.x",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@types/lodash-es": "^4.17.6",
