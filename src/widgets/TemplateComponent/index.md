@@ -1,8 +1,5 @@
 ---
-title: 模板组件
-group:
-  title: 示例分组
-  order: 1
+title: TemplateComponent
 nav:
   title: 组件
   order: 1

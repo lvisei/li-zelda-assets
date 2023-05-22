@@ -8,6 +8,7 @@ import './Component.less';
 import { CLS_PREFIX } from './constant';
 import FilterPanel from './FilterPanel';
 import type { Properties } from './registerForm';
+import RegisterSvgs from './RegisterSvgs';
 
 const anchors = [72, 72 + 119, window.innerHeight * 0.8];
 
@@ -33,6 +34,7 @@ const ZeldaMobileLayout: React.FC<ZeldaMobileLayoutProps> = (props) => {
 
   return (
     <div className={CLS_PREFIX}>
+      <RegisterSvgs />
       <div className={`${CLS_PREFIX}__main`}>
         <MapContainer
           className={classNames(`${CLS_PREFIX}__map-container`)}
