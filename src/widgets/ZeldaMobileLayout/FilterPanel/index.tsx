@@ -1,16 +1,39 @@
 import type { LocalDataset } from '@antv/li-sdk';
 import { useDataset } from '@antv/li-sdk';
-import { Grid, List, SearchBar, Space } from 'antd-mobile';
-import { uniqBy } from 'lodash-es';
-import React from 'react';
-import { DATASET_ID } from '../constant';
+import { List, SearchBar, Selector, Space } from 'antd-mobile';
+import React, { useMemo } from 'react';
 import SvgComponent from '../SvgComponent';
 import styles from './index.less';
 
-const FilterPanel = () => {
-  const [dataset] = useDataset<LocalDataset>(DATASET_ID);
+type FilterPanelProps = {
+  datasetId: string;
+};
+
+const FilterPanel: React.FC<FilterPanelProps> = (props) => {
+  const { datasetId } = props;
+  const [dataset] = useDataset<LocalDataset>(datasetId);
   const data = dataset?.data;
-  const categoryLsit = uniqBy(data, 'category');
+
+  const groupMap = useMemo(() => {
+    const _groupMap = new Map<string, Map<string, Record<string, any>[]>>();
+    if (!data) return _groupMap;
+
+    const _data = data.sort((a, b) => a.groupOrder - b.groupOrder);
+    for (const item of _data) {
+      if (!_groupMap.has(item.group)) {
+        _groupMap.set(item.group, new Map());
+      } else {
+        const categoryMap = _groupMap.get(item.group)!;
+        if (!categoryMap.has(item.category)) {
+          categoryMap.set(item.category, []);
+        } else {
+          const categoryList = categoryMap.get(item.category)!;
+          categoryList.push(item);
+        }
+      }
+    }
+    return _groupMap;
+  }, [data]);
 
   return (
     <>
@@ -22,17 +45,38 @@ const FilterPanel = () => {
           onBlur={() => {}}
         />
       </Space>
-
-      <List header="地点" style={{ '--border-bottom': 'none' }}>
-        <Grid columns={3} gap={8}>
-          {categoryLsit.map((item) => (
-            <Grid.Item key={item.category} className={styles.item}>
-              <SvgComponent className={styles.makerIcon} icon={item.icon} />
-              {item.category}
-            </Grid.Item>
-          ))}
-        </Grid>
-      </List>
+      {[...groupMap.keys()].map((groupName) => {
+        const categoryMap = groupMap.get(groupName)!;
+        return (
+          <List
+            key={groupName}
+            header={groupName}
+            style={{ '--border-bottom': 'none', '--border-top': 'none' }}
+          >
+            <Selector
+              style={{
+                padding: '0 12px',
+                '--checked-color': 'var(--adm-color-box)',
+                '--padding': '8px 8px',
+              }}
+              defaultValue={[]}
+              columns={3}
+              multiple={true}
+              options={[...groupMap.get(groupName)!.keys()].map((category) => ({
+                label: (
+                  <SvgComponent
+                    className={styles.makerIcon}
+                    icon={categoryMap.get(category)![0]?.icon}
+                  />
+                ),
+                description: `${category}(${categoryMap.get(category)?.length})`,
+                value: category,
+              }))}
+              onChange={(arr, extend) => console.log(arr, extend.items)}
+            />
+          </List>
+        );
+      })}
     </>
   );
 };

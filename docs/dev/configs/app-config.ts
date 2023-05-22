@@ -135,17 +135,19 @@ const config: Application = {
         id: '0ce6afbd-cd82-4879-9639-f2c978fdd920',
         type: 'ZeldaMobileLayout',
         metadata: {
-          name: 'ZeldaMobileLayout',
+          name: '塞尔达应用布局',
         },
-        properties: {},
+        properties: {
+          datasetId: 'zelda-makers_3b8eac94-4114-4a24-83c5-8a2a21ab79d8',
+        },
       },
-      {
-        id: 'FullscreenControl1',
-        type: 'FullscreenControl',
-        metadata: { name: '地图全屏' },
-        properties: { position: 'topright' },
-        container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
-      },
+      // {
+      //   id: 'FullscreenControl1',
+      //   type: 'FullscreenControl',
+      //   metadata: { name: '地图全屏' },
+      //   properties: { position: 'topright' },
+      //   container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
+      // },
       // {
       //   id: 'MouseLocationControl4',
       //   type: 'MouseLocationControl',
@@ -164,7 +166,12 @@ const config: Application = {
         id: 'ZeldaLayerControl',
         type: 'ZeldaLayerControl',
         metadata: { name: '图层控件' },
-        properties: { position: 'topright' },
+        properties: {
+          position: 'topright',
+          undergroundLayerId: 'b0c70759-7706-49c6-b98e-635624e8c6f4',
+          groundLayerId: 'ab8af73f-fd47-4607-9eb2-686bef746e06',
+          skyLayerId: '7f4c248c-33cd-4133-842e-e256344d590c',
+        },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       },
       {

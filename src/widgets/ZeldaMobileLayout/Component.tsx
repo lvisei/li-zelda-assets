@@ -19,7 +19,8 @@ export interface ZeldaMobileLayoutProps
 }
 
 const ZeldaMobileLayout: React.FC<ZeldaMobileLayoutProps> = (props) => {
-  const { slotsElements, children } = props;
+  const { slotsElements, children, datasetId = '' } = props;
+  console.log('datasetId: ', datasetId);
 
   const mapContainerSlots = useMemo(
     () => ({ content: slotsElements.content, controls: slotsElements.controls }),
@@ -44,7 +45,7 @@ const ZeldaMobileLayout: React.FC<ZeldaMobileLayoutProps> = (props) => {
         </MapContainer>
       </div>
       <FloatingPanel anchors={anchors} ref={ref}>
-        <FilterPanel />
+        <FilterPanel datasetId={datasetId} />
       </FloatingPanel>
     </div>
   );
