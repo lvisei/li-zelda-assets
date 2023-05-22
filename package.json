@@ -17,6 +17,7 @@
     "README.md"
   ],
   "scripts": {
+    "prepare": "husky install",
     "start": "dumi dev",
     "clean": "rimraf lib es dist",
     "lint": "npm run lint:ts && npm run lint:style",
