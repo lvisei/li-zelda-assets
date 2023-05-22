@@ -161,8 +161,8 @@ const config: Application = {
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       },
       {
-        id: 'LayerControl',
-        type: 'LayerControl',
+        id: 'ZeldaLayerControl',
+        type: 'ZeldaLayerControl',
         metadata: { name: '图层控件' },
         properties: { position: 'topright' },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },

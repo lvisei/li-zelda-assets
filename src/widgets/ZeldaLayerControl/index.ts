@@ -5,7 +5,7 @@ import registerForm from './registerForm';
 export default implementWidget({
   version: 'v0.1',
   metadata: {
-    name: 'LayerControl',
+    name: 'ZeldaLayerControl',
     displayName: '图层控件',
     description: '图层显隐控件',
     type: 'Auto',

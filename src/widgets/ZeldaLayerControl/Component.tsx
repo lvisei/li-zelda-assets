@@ -3,10 +3,11 @@ import type { ImplementWidgetProps } from '@antv/li-sdk';
 import React, { useMemo } from 'react';
 import type { Properties } from './registerForm';
 
-export interface LayerControlProps extends Properties, ImplementWidgetProps {}
+export interface ZeldaLayerControlProps extends Properties, ImplementWidgetProps {}
 
-const LayerControl: React.FC<LayerControlProps> = (props) => {
+const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
   const layerList = useLayerList();
+  console.log('layerList: ', layerList);
   const layerIdList = useMemo(() => layerList.map((layer) => layer.id), [layerList]);
 
   if (layerIdList.length === 0) {
@@ -16,4 +17,4 @@ const LayerControl: React.FC<LayerControlProps> = (props) => {
   return <LayerSwitchControl position={props.position} layers={layerIdList} />;
 };
 
-export default LayerControl;
+export default ZeldaLayerControl;
