@@ -1,8 +1,15 @@
 @cls-prefix: li-zelda-mobile-layout;
 
 :root:root {
-  --adm-button-border-radius: 4px;
-  --adm-color-primary: #39f;
+  --adm-button-border-radius: 2px;
+  --adm-color-primary: #48d69d;
+
+  --adm-color-border: #473f3b;
+
+  --adm-color-box: #0a2c1e;
+  --adm-color-background: #032115;
+
+  --adm-floating-panel-z-index: 1001;
 }
 
 .@{cls-prefix} {
@@ -23,6 +30,23 @@
 
     .l7-control-container .l7-bottom {
       display: none;
+    }
+  }
+
+  // 调整 l7-button-control 的样式
+  .l7-button-control {
+    color: var(--adm-color-text-secondary) !important;
+    background: var(--adm-color-background) !important;
+    border-color: var(--adm-color-border) !important;
+
+    .l7-iconfont {
+      fill: var(--adm-color-text-secondary) !important;
+    }
+
+    &:hover {
+      .l7-iconfont {
+        fill: var(--adm-color-text) !important;
+      }
     }
   }
 }

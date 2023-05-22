@@ -3,11 +3,12 @@ import { useDataset } from '@antv/li-sdk';
 import { Grid, List, SearchBar, Space } from 'antd-mobile';
 import { uniqBy } from 'lodash-es';
 import React from 'react';
+import { DATASET_ID } from '../constant';
 import SvgComponent from '../SvgComponent';
 import styles from './index.less';
 
 const FilterPanel = () => {
-  const [dataset] = useDataset<LocalDataset>('zelda-makers_3b8eac94-4114-4a24-83c5-8a2a21ab79d8');
+  const [dataset] = useDataset<LocalDataset>(DATASET_ID);
   const data = dataset?.data;
   const categoryLsit = uniqBy(data, 'category');
 
@@ -15,7 +16,7 @@ const FilterPanel = () => {
     <>
       <Space block className={styles.search}>
         <SearchBar
-          placeholder="Search for a place or address"
+          placeholder="克拉卡塔神庙"
           showCancelButton
           onFocus={() => {}}
           onBlur={() => {}}

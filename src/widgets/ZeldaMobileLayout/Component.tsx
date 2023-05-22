@@ -42,7 +42,6 @@ const ZeldaMobileLayout: React.FC<ZeldaMobileLayoutProps> = (props) => {
         >
           {children}
         </MapContainer>
-        {/* (<div className={`${CLS_PREFIX}__bottom-panel`}></div>) */}
       </div>
       <FloatingPanel anchors={anchors} ref={ref}>
         <FilterPanel />

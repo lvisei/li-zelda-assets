@@ -66,13 +66,14 @@ const config: Application = {
   ],
   spec: {
     map: {
-      // basemap: 'Gaode',
       basemap: 'Map',
       config: {
-        zoom: 1.2,
-        minZoom: 0,
+        zoom: 3,
+        minZoom: 1,
         maxZoom: 7,
         center: [-85.153576, 74.287459],
+        bounds: [-119.693328, 85.021499, -54.115116, 33.984887],
+        maxBounds: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
         pitch: 0,
         bearing: 0,
         style: 'dark',
@@ -83,7 +84,7 @@ const config: Application = {
       {
         id: 'b0c70759-7706-49c6-b98e-635624e8c6f4',
         type: 'TileLayer',
-        metadata: { name: 'Undergroundtiles' },
+        metadata: { name: '地下' },
         sourceConfig: {
           parser: { type: 'rasterTile' },
           datasetId: 'f803ba2c-f41a-48d8-bb14-6f9d40e23cda',
@@ -99,7 +100,7 @@ const config: Application = {
       {
         id: 'ab8af73f-fd47-4607-9eb2-686bef746e06',
         type: 'TileLayer',
-        metadata: { name: 'Groundtiles' },
+        metadata: { name: '陆地' },
         sourceConfig: {
           parser: { type: 'rasterTile' },
           datasetId: '20f29561-8381-4209-9ccf-04999d01db35',
@@ -115,7 +116,7 @@ const config: Application = {
       {
         id: '7f4c248c-33cd-4133-842e-e256344d590c',
         type: 'TileLayer',
-        metadata: { name: 'Skytiles' },
+        metadata: { name: '天空' },
         sourceConfig: {
           parser: { type: 'rasterTile' },
           datasetId: '734eb079-260c-4b3f-bf48-e28e92f88368',
@@ -145,20 +146,13 @@ const config: Application = {
         properties: { position: 'topright' },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       },
-      {
-        id: 'LayerControl',
-        type: 'LayerControl',
-        metadata: { name: '图层控件' },
-        properties: { position: 'topright' },
-        container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
-      },
-      {
-        id: 'MouseLocationControl4',
-        type: 'MouseLocationControl',
-        metadata: { name: '光标经纬度' },
-        properties: { position: 'topleft' },
-        container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
-      },
+      // {
+      //   id: 'MouseLocationControl4',
+      //   type: 'MouseLocationControl',
+      //   metadata: { name: '光标经纬度' },
+      //   properties: { position: 'topleft' },
+      //   container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
+      // },
       {
         id: 'ExportImageControl_ea0b8946-3e3d-4a87-a4a0-5dd08e7a2eed',
         type: 'ExportImageControl',
@@ -167,8 +161,15 @@ const config: Application = {
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       },
       {
-        id: 'ZoomControl1',
-        type: 'ZoomControl',
+        id: 'LayerControl',
+        type: 'LayerControl',
+        metadata: { name: '图层控件' },
+        properties: { position: 'topright' },
+        container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
+      },
+      {
+        id: 'ZeldaZoomControl',
+        type: 'ZeldaZoomControl',
         metadata: { name: '缩放器' },
         properties: { position: 'topleft', showZoom: true },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
