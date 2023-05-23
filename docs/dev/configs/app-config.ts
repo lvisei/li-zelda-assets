@@ -155,13 +155,13 @@ const config: Application = {
       //   properties: { position: 'topleft' },
       //   container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       // },
-      {
-        id: 'ExportImageControl_ea0b8946-3e3d-4a87-a4a0-5dd08e7a2eed',
-        type: 'ExportImageControl',
-        metadata: { name: '导出图片' },
-        properties: { position: 'topright' },
-        container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
-      },
+      // {
+      //   id: 'ExportImageControl_ea0b8946-3e3d-4a87-a4a0-5dd08e7a2eed',
+      //   type: 'ExportImageControl',
+      //   metadata: { name: '导出图片' },
+      //   properties: { position: 'topright' },
+      //   container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
+      // },
       {
         id: 'ZeldaLayerControl',
         type: 'ZeldaLayerControl',
