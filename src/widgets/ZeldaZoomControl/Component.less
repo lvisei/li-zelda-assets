@@ -1,0 +1,39 @@
+.zoomControl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.zoomItem {
+  width: 28px;
+  height: 28px;
+  color: var(--adm-color-text-secondary);
+  line-height: 28px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: var(--adm-color-background);
+}
+
+.zoomBtn {
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--adm-color-text);
+    background-color: var(--adm-color-box);
+  }
+}
+
+.zoomBtnIn {
+  border-radius: var(--adm-button-border-radius) var(--adm-button-border-radius) 0 0;
+}
+
+.zoomBtnOut {
+  border-radius: 0 0 var(--adm-button-border-radius) var(--adm-button-border-radius);
+}
+
+.zoomNumber {
+  font-size: 12px;
+  border-top: 1px solid var(--adm-color-border);
+  border-bottom: 1px solid var(--adm-color-border);
+}
