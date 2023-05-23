@@ -55,9 +55,9 @@ const config: Application = {
       },
     },
     {
-      id: 'zelda-makers_3b8eac94-4114-4a24-83c5-8a2a21ab79d8',
+      id: '3b8eac94-4114-4a24-83c5-8a2a21ab79d8',
       metadata: {
-        name: 'zelda-makers',
+        name: 'Zelda Mark',
       },
       data: zeldaMakers,
       columns: [],
@@ -84,7 +84,7 @@ const config: Application = {
       {
         id: 'b0c70759-7706-49c6-b98e-635624e8c6f4',
         type: 'TileLayer',
-        metadata: { name: '地下' },
+        metadata: { name: 'Underground Layer' },
         sourceConfig: {
           parser: { type: 'rasterTile' },
           datasetId: 'f803ba2c-f41a-48d8-bb14-6f9d40e23cda',
@@ -100,7 +100,7 @@ const config: Application = {
       {
         id: 'ab8af73f-fd47-4607-9eb2-686bef746e06',
         type: 'TileLayer',
-        metadata: { name: '陆地' },
+        metadata: { name: 'Ground Layer' },
         sourceConfig: {
           parser: { type: 'rasterTile' },
           datasetId: '20f29561-8381-4209-9ccf-04999d01db35',
@@ -116,7 +116,7 @@ const config: Application = {
       {
         id: '7f4c248c-33cd-4133-842e-e256344d590c',
         type: 'TileLayer',
-        metadata: { name: '天空' },
+        metadata: { name: 'Sky Layer' },
         sourceConfig: {
           parser: { type: 'rasterTile' },
           datasetId: '734eb079-260c-4b3f-bf48-e28e92f88368',
@@ -138,7 +138,7 @@ const config: Application = {
           name: '塞尔达应用布局',
         },
         properties: {
-          datasetId: 'zelda-makers_3b8eac94-4114-4a24-83c5-8a2a21ab79d8',
+          datasetId: '3b8eac94-4114-4a24-83c5-8a2a21ab79d8',
         },
       },
       // {

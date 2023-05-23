@@ -1,12 +1,13 @@
-import type { LocalDataset } from '@antv/li-sdk';
-import { useDataset } from '@antv/li-sdk';
+import type { LocalDatasetSchema } from '@antv/li-sdk';
+import { useDataset, useEventSubscribe } from '@antv/li-sdk';
 import type { FloatingPanelRef, SelectorOption } from 'antd-mobile';
 import { Button, FloatingPanel, Grid, List, SearchBar, Selector, Space } from 'antd-mobile';
 import { FilterOutline } from 'antd-mobile-icons';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import SvgComponent from '../SvgComponent';
 import type { MarkLocation } from '../types';
 import styles from './index.less';
+import SearchBody from './SearchBody';
 
 const anchors = [72, 72 + 119, window.innerHeight * 0.8];
 
@@ -17,19 +18,28 @@ type FilterPanelProps = {
 
 const FilterPanel: React.FC<FilterPanelProps> = (props) => {
   const { datasetId, onFilterChange } = props;
-  const ref = useRef<FloatingPanelRef>(null);
-  const [dataset] = useDataset<LocalDataset>(datasetId);
-  const data = dataset?.data;
+  const floatingPanelRef = useRef<FloatingPanelRef>(null);
+  const [dataset] = useDataset<LocalDatasetSchema<MarkLocation>>(datasetId);
 
-  const [selectedCategorys, setSelectedCategorys] = useState(
-    new Map<string, Record<string, any>[]>(),
+  const [layerType, setLayerType] = useState('ground');
+  const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [searchValue, setSearchValue] = useState<string>();
+
+  const [selectedGroups, setSelectedGroups] = useState(
+    new Map<string, { values: string[]; locations: MarkLocation[] }>(),
   );
 
+  const layerData = useMemo(
+    () => dataset?.data?.filter((item) => item.mapType === layerType),
+    [dataset?.data, layerType],
+  );
   const groupMap = useMemo(() => {
     const _groupMap = new Map<string, Map<string, Record<string, any>[]>>();
-    if (!data) return _groupMap;
+    if (!layerData) return _groupMap;
 
-    const _data = data.sort((a, b) => a.groupOrder - b.groupOrder);
+    const _data = layerData
+      .filter((item) => item.mapType === layerType)
+      .sort((a, b) => a.groupOrder - b.groupOrder);
     for (const item of _data) {
       if (!_groupMap.has(item.group)) {
         _groupMap.set(item.group, new Map());
@@ -53,73 +63,127 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     });
 
     return _groupMap;
-  }, [data]);
+  }, [layerData, layerType]);
 
-  const onChangeSelectedCategorys = (
-    arr: string[],
+  const groupNames = useMemo(() => [...groupMap.keys()], [groupMap]);
+
+  const handleSelected = (
+    _selectedGroups: Map<string, { values: string[]; locations: MarkLocation[] }>,
+  ) => {
+    setSelectedGroups(_selectedGroups);
+    const locationList = [..._selectedGroups.values()].map((item) => item.locations).flat();
+    onFilterChange(locationList);
+  };
+
+  // 监听图层切换
+  useEventSubscribe('zelda-layer-change', (value: 'sky' | 'ground' | 'underground') => {
+    setLayerType(value);
+    handleSelected(new Map());
+  });
+
+  useEffect(() => {
+    floatingPanelRef.current?.setHeight(anchors[1]);
+  }, []);
+
+  const onChangeSelected = (
+    groupName: string,
+    values: string[],
     extend: {
       items: (SelectorOption<string> & { locations: MarkLocation[] })[];
     },
   ) => {
-    console.log(arr, extend.items);
-    const locationList = extend.items.map((item) => item.locations).flat();
-    onFilterChange(locationList);
+    const _selectedGroups = new Map(selectedGroups);
+    _selectedGroups.set(groupName, {
+      values,
+      locations: extend.items.map((item) => item.locations).flat(),
+    });
+    handleSelected(_selectedGroups);
+  };
+
+  const onClickSearch = (location: MarkLocation) => {
+    setSelectedGroups(new Map());
+    onFilterChange([location]);
+    floatingPanelRef.current?.setHeight(anchors[1]);
   };
 
   const onClickReast = () => {
-    ref.current?.setHeight(anchors[0]);
-    onFilterChange([]);
+    setSearchValue('');
+    floatingPanelRef.current?.setHeight(anchors[0]);
+    handleSelected(new Map());
   };
 
   const onClickView = () => {
-    ref.current?.setHeight(anchors[0]);
+    floatingPanelRef.current?.setHeight(anchors[0]);
   };
 
-  return (
-    <FloatingPanel anchors={anchors} ref={ref}>
+  const renderHeader = () => {
+    return (
       <Space block className={styles.search}>
         <SearchBar
+          value={searchValue}
           placeholder="克拉卡塔神庙"
           showCancelButton
-          onFocus={() => {}}
-          onBlur={() => {}}
+          onFocus={() => {
+            setShowSearchPanel(true);
+            floatingPanelRef.current?.setHeight(anchors[2]);
+          }}
+          onCancel={() => {
+            setShowSearchPanel(false);
+            floatingPanelRef.current?.setHeight(anchors[0]);
+          }}
+          onChange={setSearchValue}
         />
       </Space>
-      {[...groupMap.keys()].map((groupName) => {
-        const categoryMap = groupMap.get(groupName)!;
-        return (
-          <List
-            key={groupName}
-            header={groupName}
-            style={{ '--border-bottom': 'none', '--border-top': 'none' }}
-          >
-            <Selector
-              style={{
-                padding: '0 12px',
-                '--checked-color': 'var(--adm-color-box)',
-                '--padding': '8px 8px',
-              }}
-              defaultValue={[]}
-              columns={3}
-              multiple={true}
-              options={[...groupMap.get(groupName)!.keys()].map((category) => ({
-                label: (
-                  <SvgComponent
-                    className={styles.makerIcon}
-                    icon={categoryMap.get(category)![0]?.icon}
-                  />
-                ),
-                description: `${category}(${categoryMap.get(category)?.length})`,
-                value: category,
-                locations: categoryMap.get(category),
-              }))}
-              // @ts-ignore
-              onChange={onChangeSelectedCategorys}
-            />
-          </List>
-        );
-      })}
+    );
+  };
 
+  const renderMarkList = () => {
+    return groupNames.map((groupName) => {
+      const categoryMap = groupMap.get(groupName)!;
+      const options = [...categoryMap.keys()].map((category) => ({
+        label: (
+          <SvgComponent className={styles.makerIcon} icon={categoryMap.get(category)![0]?.icon} />
+        ),
+        description: `${category}(${categoryMap.get(category)?.length})`,
+        value: category,
+        locations: categoryMap.get(category),
+      }));
+
+      return (
+        <List
+          key={groupName}
+          header={groupName}
+          style={{ '--border-bottom': 'none', '--border-top': 'none' }}
+        >
+          <Selector
+            style={{
+              padding: '0 12px',
+              '--checked-color': 'var(--adm-color-box)',
+              '--padding': '8px 8px',
+            }}
+            defaultValue={[]}
+            value={selectedGroups.get(groupName)?.values || []}
+            columns={3}
+            multiple={true}
+            options={options}
+            // @ts-ignore
+            onChange={(arr, extend) => onChangeSelected(groupName, arr, extend)}
+          />
+        </List>
+      );
+    });
+  };
+
+  const renderBody = () => {
+    if (showSearchPanel) {
+      return <SearchBody data={layerData} keyword={searchValue} onClick={onClickSearch} />;
+    }
+
+    return renderMarkList();
+  };
+
+  const renderFooter = () => (
+    <>
       <Grid columns={3} gap={8} style={{ position: 'absolute', bottom: 10, left: 10, right: 10 }}>
         <Grid.Item span={1}>
           <Button size="small" block shape="default" onClick={onClickReast}>
@@ -138,6 +202,14 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
       {/* placeholder */}
       <div style={{ height: 60 }} />
+    </>
+  );
+
+  return (
+    <FloatingPanel anchors={anchors} ref={floatingPanelRef}>
+      {renderHeader()}
+      {renderBody()}
+      {renderFooter()}
     </FloatingPanel>
   );
 };

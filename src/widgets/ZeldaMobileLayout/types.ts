@@ -23,4 +23,5 @@ export type MarkLocation = {
   icon: string;
   group: string;
   groupOrder: number;
+  color: string;
 };
