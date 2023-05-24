@@ -5,7 +5,8 @@ import { useEventPublish } from '@antv/li-sdk';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import SvgComponent from '../ZeldaMobileLayout/SvgComponent';
-import styles from './Component.less';
+import './Component.less';
+import { CLS_PREFIX } from './constants';
 import type { Properties } from './registerForm';
 
 type ZeldaLayerList = {
@@ -58,12 +59,12 @@ const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
   };
 
   return (
-    <CustomControl position={position} className={styles.control}>
+    <CustomControl position={position} className={`${CLS_PREFIX}__control`}>
       {zeldaLayerList.map((layer) => (
         <div
           key={layer.id}
-          className={classNames(styles.item, styles.zoomBtn, {
-            [styles.zoomBtn_active]: layer.instance.isVisible(),
+          className={classNames(`${CLS_PREFIX}__item`, `${CLS_PREFIX}__zoomBtn`, {
+            [`${CLS_PREFIX}__zoomBtn_active`]: layer.instance.isVisible(),
           })}
           onClick={() => onClickLayer(layer.instance, layer.value)}
         >

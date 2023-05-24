@@ -5,8 +5,9 @@ import { useScene } from '@antv/li-sdk';
 import classNames from 'classnames';
 import { round } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
-import styles from './Component.less';
+import './Component.less';
 import type { Properties } from './registerForm';
+import  { CLS_PREFIX } from "./constants";
 
 export interface ZeldaZoomControlProps extends ImplementWidgetProps, Properties {}
 
@@ -39,16 +40,16 @@ const ZeldaZoomControl: React.FC<ZeldaZoomControlProps> = (props) => {
   }, [scene]);
 
   return (
-    <CustomControl position={position} className={styles.zoomControl}>
+    <CustomControl position={position} className={`${CLS_PREFIX}__zoomControl`}>
       <div
-        className={classNames(styles.zoomItem, styles.zoomBtn, styles.zoomBtnIn)}
+        className={classNames(`${CLS_PREFIX}__zoomItem`,`${CLS_PREFIX}__zoomBtnIn`,`${CLS_PREFIX}__zoomBtn`)}
         onClick={onZoomIn}
       >
         <PlusOutlined />
       </div>
-      <div className={classNames(styles.zoomItem, styles.zoomNumber)}>{zoom}</div>
+      <div className={classNames(`${CLS_PREFIX}__zoomItem`, `${CLS_PREFIX}__zoomNumber`)}>{zoom}</div>
       <div
-        className={classNames(styles.zoomItem, styles.zoomBtn, styles.zoomBtnOut)}
+        className={classNames(`${CLS_PREFIX}__zoomItem`, `${CLS_PREFIX}__zoomBtn`, `${CLS_PREFIX}__zoomBtnOut`)}
         onClick={onZoomOut}
       >
         <MinusOutlined />

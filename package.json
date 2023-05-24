@@ -52,6 +52,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/fabric": "^3.0.0",
+    "antd": "^5.5.1",
     "dumi": "^1.1.46",
     "eslint": "^7.11.0",
     "eslint-plugin-import": "^2.26.0",
