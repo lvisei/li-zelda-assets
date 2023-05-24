@@ -1,3 +1,5 @@
+@layer-btn-size: 32px;
+
 .control {
   display: flex;
   flex-direction: column;
@@ -5,10 +7,10 @@
 }
 
 .item {
-  width: 28px;
-  height: 28px;
+  width: @layer-btn-size;
+  height: @layer-btn-size;
   color: var(--adm-color-text-secondary);
-  line-height: 28px;
+  line-height: @layer-btn-size;
   text-align: center;
   vertical-align: middle;
   background-color: var(--adm-color-background);
@@ -31,7 +33,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
 
   &:hover,

@@ -11,6 +11,7 @@ export type MarkLocationMedum = {
 };
 
 export type MarkLocation = {
+  id: string;
   title: string;
   description: string;
   longitude: number;
