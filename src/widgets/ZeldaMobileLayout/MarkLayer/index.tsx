@@ -35,7 +35,9 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
   };
 
   const onShare = ({ id }: MarkLocation) => {
-    copyText(location.origin + location.pathname + `?locationId=${id}`, '标注链接复制成功');
+    const search = new URLSearchParams(location.search);
+    search.append('locationId', id);
+    copyText(location.href.split('?')[0] + `?` + search.toString(), '标注链接复制成功');
   };
 
   const getPopupContent = (location: MarkLocation) => {
@@ -107,7 +109,10 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
           lngLat={{ lng: activedMark.longitude, lat: activedMark.latitude }}
           title={
             <div>
-              <LinkOutline className={`${CLS_PREFIX}__linkIcon`} onClick={() => onShare(activedMark)} />
+              <LinkOutline
+                className={`${CLS_PREFIX}__linkIcon`}
+                onClick={() => onShare(activedMark)}
+              />
               <div style={{ overflow: 'hidden' }}>{activedMark.title}</div>
             </div>
           }
