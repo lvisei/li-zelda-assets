@@ -7,7 +7,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { getUrlParams } from '../../../utils';
 import SvgComponent from '../SvgComponent';
 import type { MarkLocation } from '../types';
-import styles from './index.less';
+import { CLS_PREFIX } from './constants';
+import './index.less';
 import SearchBody from './SearchBody';
 
 const anchors = [72, 68 + 119, window.innerHeight * 0.8];
@@ -134,7 +135,7 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
   const renderHeader = () => {
     return (
-      <Space block className={styles.search}>
+      <Space block className={`${CLS_PREFIX}__search`}>
         <SearchBar
           value={searchValue}
           placeholder="克拉卡塔神庙"
@@ -165,7 +166,10 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
       const categoryMap = groupMap.get(groupName)!;
       const options = [...categoryMap.keys()].map((category) => ({
         label: (
-          <SvgComponent className={styles.markIcon} icon={categoryMap.get(category)![0]?.icon} />
+          <SvgComponent
+            className={`${CLS_PREFIX}__markIcon`}
+            icon={categoryMap.get(category)![0]?.icon}
+          />
         ),
         description: `${category}(${categoryMap.get(category)?.length})`,
         value: category,
@@ -174,7 +178,7 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
       return (
         <List
-          className={styles.groupList}
+          className={`${CLS_PREFIX}__groupList`}
           key={groupName}
           header={groupName}
           style={{ '--border-bottom': 'none', '--border-top': 'none' }}
@@ -210,7 +214,7 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
   const renderFooter = () => (
     <>
-      <Grid columns={3} gap={8} className={styles.btnGroup}>
+      <Grid columns={3} gap={8} className={`${CLS_PREFIX}__btnGroup`}>
         <Grid.Item span={1}>
           <Button size="small" block shape="default" onClick={onClickReset}>
             重置

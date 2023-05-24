@@ -4,7 +4,6 @@ import { SearchOutline, SmileOutline } from 'antd-mobile-icons';
 import React, { useEffect, useState } from 'react';
 import SvgComponent from '../../SvgComponent';
 import type { MarkLocation } from '../../types';
-import styles from './index.less';
 
 type SearchBodyProps = {
   keyword?: string;
@@ -65,9 +64,8 @@ const SearchBody: React.FC<SearchBodyProps> = (props) => {
             clickable
             prefix={
               <SvgComponent
-                className={styles.makerIcon}
                 icon={location.icon}
-                style={{ color: location.color, borderRadius: 20, width: 40, height: 40 }}
+                style={{ color: location.color, borderRadius: 20, width: 40, height: 40, fontSize: 30 }}
               />
             }
             extra={location.category}

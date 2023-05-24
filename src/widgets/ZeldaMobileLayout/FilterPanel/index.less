@@ -1,7 +1,9 @@
-.search {
-  padding: 0 12px 12px;
+@cls-prefix: li-zelda-filter-panel;
 
-  :global {
+.@{cls-prefix} {
+  &__search {
+    padding: 0 12px 12px;
+
     .adm-space-item:first-child {
       flex: 1;
     }
@@ -12,25 +14,23 @@
       font-size: 16px;
     }
   }
-}
 
-.groupList {
-  :global {
+  &__groupList {
     .adm-list-body {
       padding-top: 1px;
     }
   }
-}
 
-.markIcon {
-  font-size: 30px;
-}
+  &__markIcon {
+    font-size: 30px;
+  }
 
-.btnGroup {
-  position: absolute;
-  bottom: 0;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 10px;
-  background: #032115;
+  &__btnGroup {
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    background: #032115;
+  }
 }

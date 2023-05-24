@@ -7,7 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { copyText } from '../../../utils';
 import SvgComponent from '../SvgComponent';
 import type { MarkLocation } from '../types';
-import styles from './index.less';
+import { CLS_PREFIX } from './constants';
+import './index.less';
 
 type MarkLayerProps = {
   locations: MarkLocation[];
@@ -88,7 +89,7 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
             onClick={() => onClickMark(location)}
           >
             <SvgComponent
-              className={styles.markIcon}
+              className={`${CLS_PREFIX}__markIcon`}
               style={{
                 color: location.color,
               }}
@@ -100,13 +101,13 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
 
       {activedMark !== undefined && (
         <Popup
-          className={styles.popup}
+          className={`${CLS_PREFIX}__popup`}
           anchor="bottom"
           offsets={[0, 20]}
           lngLat={{ lng: activedMark.longitude, lat: activedMark.latitude }}
           title={
             <div>
-              <LinkOutline className={styles.linkIcon} onClick={() => onShare(activedMark)} />
+              <LinkOutline className={`${CLS_PREFIX}__linkIcon`} onClick={() => onShare(activedMark)} />
               <div style={{ overflow: 'hidden' }}>{activedMark.title}</div>
             </div>
           }

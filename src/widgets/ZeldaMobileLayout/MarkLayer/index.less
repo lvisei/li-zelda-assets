@@ -1,19 +1,19 @@
+@cls-prefix: li-zelda-mark-layer;
 @mark-size: 34px;
 
-.markIcon {
-  font-size: 30px;
-}
+.@{cls-prefix} {
+  &__markIcon {
+    font-size: 30px;
+  }
+  &__linkIcon {
+    float: right;
+    width: 20px;
+    height: 20px;
+  }
 
-.linkIcon {
-  float: right;
-  width: 20px;
-  height: 20px;
-}
+  &__popup {
+    width: 200px;
 
-.popup {
-  width: 200px;
-
-  :global {
     .l7-popup-tip {
       border-top-color: var(--adm-color-background) !important;
       border-bottom-color: var(--adm-color-background) !important;
