@@ -24,15 +24,15 @@ export function copyText(content: string, message: string) {
  */
 export function getUrlParams(url: string) {
   // 通过 ? 分割获取后面的参数字符串
-  let urlStr = url.split('?')[1];
+  const urlStr = url.split('?')[1];
   // 创建空对象存储参数
-  let obj: Record<string, string> = {};
+  const obj: Record<string, string> = {};
   if (urlStr) {
     // 再通过 & 将每一个参数单独分割出来
-    let paramsArr = urlStr.split('&');
+    const paramsArr = urlStr.split('&');
     for (let i = 0, len = paramsArr.length; i < len; i++) {
       // 再通过 = 将每一个参数分割为 key:value 的形式
-      let arr = paramsArr[i].split('=');
+      const arr = paramsArr[i].split('=');
       obj[arr[0]] = arr[1];
     }
   }
