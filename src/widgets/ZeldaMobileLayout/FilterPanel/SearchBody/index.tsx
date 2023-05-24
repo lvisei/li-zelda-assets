@@ -1,6 +1,6 @@
 import { stringSearch } from '@antv/li-sdk/dist/esm/utils/filters/string-search';
 import { List, Result } from 'antd-mobile';
-import { SmileOutline } from 'antd-mobile-icons';
+import { SearchOutline, SmileOutline } from 'antd-mobile-icons';
 import React, { useEffect, useState } from 'react';
 import SvgComponent from '../../SvgComponent';
 import type { MarkLocation } from '../../types';
@@ -28,6 +28,16 @@ const SearchBody: React.FC<SearchBodyProps> = (props) => {
   }, [data, keyword]);
 
   if (locations.length === 0) {
+    if (keyword) {
+      return (
+        <Result
+          icon={<SearchOutline />}
+          status="waiting"
+          title=""
+          description="当前关键字暂无搜索结果，请重新输入"
+        />
+      );
+    }
     return (
       <Result
         icon={<SmileOutline />}
@@ -50,7 +60,7 @@ const SearchBody: React.FC<SearchBodyProps> = (props) => {
       >
         {locations.map((location) => (
           <List.Item
-            key={`${location.title}${location.latitude} ${location.longitude}`}
+            key={location.id}
             style={{ '--active-background-color': 'var(--adm-color-box)' }}
             clickable
             prefix={

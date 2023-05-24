@@ -1,7 +1,10 @@
 import { Marker, Popup } from '@antv/larkmap';
 import { useScene } from '@antv/li-sdk';
 import { Swiper } from 'antd-mobile';
+import { LinkOutline } from 'antd-mobile-icons';
+import Markdown from 'markdown-to-jsx';
 import React, { useEffect, useState } from 'react';
+import { copyText } from '../../../utils';
 import SvgComponent from '../SvgComponent';
 import type { MarkLocation } from '../types';
 import styles from './index.less';
@@ -28,6 +31,10 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
 
   const onClickMark = (mark: MarkLocation) => {
     setActivedMark(mark);
+  };
+
+  const onShare = ({ id }: MarkLocation) => {
+    copyText(location.origin + location.pathname + `?locationId=${id}`, '标注链接复制成功');
   };
 
   const getPopupContent = (location: MarkLocation) => {
@@ -61,7 +68,9 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
     return (
       <>
         <p>{location.category}</p>
-        <p>{location.description}</p>
+        <p>
+          <Markdown>{location.description}</Markdown>
+        </p>
 
         {media.length > 0 && getMediaContent()}
       </>
@@ -73,15 +82,17 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
       {locations.map((location) => {
         return (
           <Marker
-            key={`${location.latitude} ${location.longitude}`}
+            key={location.id}
             anchor="center"
             lngLat={{ lng: location.longitude, lat: location.latitude }}
             onClick={() => onClickMark(location)}
           >
             <SvgComponent
-              className={styles.makerIcon}
+              className={styles.markIcon}
+              style={{
+                color: location.color,
+              }}
               icon={location.icon}
-              style={{ color: location.color }}
             />
           </Marker>
         );
@@ -93,7 +104,12 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
           anchor="bottom"
           offsets={[0, 20]}
           lngLat={{ lng: activedMark.longitude, lat: activedMark.latitude }}
-          title={activedMark.title}
+          title={
+            <div>
+              <LinkOutline className={styles.linkIcon} onClick={() => onShare(activedMark)} />
+              <div style={{ overflow: 'hidden' }}>{activedMark.title}</div>
+            </div>
+          }
           closeOnClick={true}
           closeButton={false}
           onHide={() => setActivedMark(undefined)}

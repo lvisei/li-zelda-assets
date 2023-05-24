@@ -4,12 +4,13 @@ import type { FloatingPanelRef, SelectorOption } from 'antd-mobile';
 import { Button, FloatingPanel, Grid, List, SearchBar, Selector, Space } from 'antd-mobile';
 import { FilterOutline } from 'antd-mobile-icons';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { getUrlParams } from '../../../utils';
 import SvgComponent from '../SvgComponent';
 import type { MarkLocation } from '../types';
 import styles from './index.less';
 import SearchBody from './SearchBody';
 
-const anchors = [72, 72 + 119, window.innerHeight * 0.8];
+const anchors = [72, 68 + 119, window.innerHeight * 0.8];
 
 type FilterPanelProps = {
   datasetId: string;
@@ -81,9 +82,23 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     handleSelected(new Map());
   });
 
+  /**
+   * 组件初始化时
+   */
   useEffect(() => {
     floatingPanelRef.current?.setHeight(anchors[1]);
   }, []);
+
+  useEffect(() => {
+    const { locationId } = getUrlParams(location.href);
+    if (!locationId || !dataset?.data?.length) {
+      return;
+    }
+    const targetLocation = dataset?.data?.find((location) => location.id === locationId);
+    if (targetLocation) {
+      onFilterChange([targetLocation]);
+    }
+  }, [dataset?.data]);
 
   const onChangeSelected = (
     groupName: string,
@@ -106,10 +121,11 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     floatingPanelRef.current?.setHeight(anchors[1]);
   };
 
-  const onClickReast = () => {
+  const onClickReset = () => {
     setSearchValue('');
     floatingPanelRef.current?.setHeight(anchors[0]);
     handleSelected(new Map());
+    setShowSearchPanel(false);
   };
 
   const onClickView = () => {
@@ -129,7 +145,14 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
           }}
           onCancel={() => {
             setShowSearchPanel(false);
-            floatingPanelRef.current?.setHeight(anchors[0]);
+          }}
+          onBlur={() => {
+            if (!searchValue) {
+              setShowSearchPanel(false);
+            }
+          }}
+          onClear={() => {
+            setShowSearchPanel(false);
           }}
           onChange={setSearchValue}
         />
@@ -142,7 +165,7 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
       const categoryMap = groupMap.get(groupName)!;
       const options = [...categoryMap.keys()].map((category) => ({
         label: (
-          <SvgComponent className={styles.makerIcon} icon={categoryMap.get(category)![0]?.icon} />
+          <SvgComponent className={styles.markIcon} icon={categoryMap.get(category)![0]?.icon} />
         ),
         description: `${category}(${categoryMap.get(category)?.length})`,
         value: category,
@@ -151,6 +174,7 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
       return (
         <List
+          className={styles.groupList}
           key={groupName}
           header={groupName}
           style={{ '--border-bottom': 'none', '--border-top': 'none' }}
@@ -159,7 +183,9 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
             style={{
               padding: '0 12px',
               '--checked-color': 'var(--adm-color-box)',
-              '--padding': '8px 8px',
+              '--checked-border': 'solid var(--adm-color-primary) 1px',
+              '--border': 'solid transparent 1px',
+              '--padding': '7px 7px',
             }}
             defaultValue={[]}
             value={selectedGroups.get(groupName)?.values || []}
@@ -184,9 +210,9 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
   const renderFooter = () => (
     <>
-      <Grid columns={3} gap={8} style={{ position: 'absolute', bottom: 10, left: 10, right: 10 }}>
+      <Grid columns={3} gap={8} className={styles.btnGroup}>
         <Grid.Item span={1}>
-          <Button size="small" block shape="default" onClick={onClickReast}>
+          <Button size="small" block shape="default" onClick={onClickReset}>
             重置
           </Button>
         </Grid.Item>
