@@ -14,7 +14,7 @@ const config: Application = {
       type: 'raster-tile',
       metadata: { name: 'Groundtiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
-        url: 'https://tiles.lvisei.icu/zelda-2/groundtiles/{z}/{x}/{y}.png',
+        url: 'https://cdn.jsdelivr.net/gh/Slluxx/TOTK-Interactive-Map@tiles/assets/tiles/groundtiles/{z}/{x}/{y}.png',
         parser: {
           type: 'rasterTile',
           tileSize: 256,
@@ -29,7 +29,7 @@ const config: Application = {
       type: 'raster-tile',
       metadata: { name: 'Skytiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
-        url: 'https://tiles.lvisei.icu/zelda-2/skytiles/{z}/{x}/{y}.png',
+        url: 'https://cdn.jsdelivr.net/gh/Slluxx/TOTK-Interactive-Map@tiles/assets/tiles/skytiles/{z}/{x}/{y}.png',
         parser: {
           type: 'rasterTile',
           tileSize: 256,
@@ -44,7 +44,7 @@ const config: Application = {
       type: 'raster-tile',
       metadata: { name: 'Undergroundtiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
-        url: 'https://tiles.lvisei.icu/zelda-2/undergroundtiles/{z}/{x}/{y}.png',
+        url: 'https://cdn.jsdelivr.net/gh/Slluxx/TOTK-Interactive-Map@tiles/assets/tiles/undergroundtiles/{z}/{x}/{y}.png',
         parser: {
           type: 'rasterTile',
           tileSize: 256,
