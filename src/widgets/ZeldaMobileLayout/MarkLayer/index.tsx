@@ -43,7 +43,7 @@ const Achievement = ({
 
   return (
     <Button
-      className="acheived-button"
+      className={`${CLS_PREFIX}__acheived-button`}
       size="small"
       onClick={() => {
         if (status) onResetArcheived();
@@ -88,7 +88,7 @@ const PopupContent = ({ location }: { location: MarkLocation }) => {
   return (
     <>
       {achieved && (
-        <div className="achieved-stamp">
+        <div className={`${CLS_PREFIX}__achieved-stamp`}>
           <Stamp />
         </div>
       )}
