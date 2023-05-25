@@ -1,4 +1,5 @@
 import { Toast } from 'antd-mobile';
+export { achieved, isAchieved, setAchieved, store, unAchieved } from './store';
 
 /**
  * 复制文本至剪切板
