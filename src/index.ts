@@ -4,7 +4,7 @@ import * as Widgets from './widgets';
 export * from './widgets';
 
 const TemplateAsset: Asset = {
-  version: 'v0.2',
+  version: 'v0.3',
   widgets: Object.values(Widgets),
   layers: [],
 };
