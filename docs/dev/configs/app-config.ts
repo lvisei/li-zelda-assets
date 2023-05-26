@@ -181,6 +181,20 @@ const config: Application = {
         properties: { position: 'topleft', showZoom: true },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       },
+      {
+        id: 'ZeldaMoreControl',
+        type: 'ZeldaMoreControl',
+        metadata: {
+          name: '更多控件',
+        },
+        properties: {
+          position: 'topright',
+        },
+        container: {
+          id: '0ce6afbd-cd82-4879-9639-f2c978fdd920',
+          slot: 'controls',
+        },
+      },
     ],
   },
 };
