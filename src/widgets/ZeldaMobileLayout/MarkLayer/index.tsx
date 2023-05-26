@@ -140,14 +140,21 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
             lngLat={{ lng: location.longitude, lat: location.latitude }}
             onClick={() => onClickMark(location)}
           >
-            <SvgComponent
-              className={`${CLS_PREFIX}__markIcon`}
+            <div
+              className={`${CLS_PREFIX}__markIconContainer`}
               style={{
-                color: location.color,
-                opacity: isAchieved(location.id) ? 0.5 : 1,
+                backgroundColor: location.color,
+                opacity: isAchieved(location.id) ? 0.8 : 1,
               }}
-              icon={location.icon}
-            />
+            >
+              <SvgComponent
+                className={`${CLS_PREFIX}__markIcon`}
+                style={{
+                  color: '#fff',
+                }}
+                icon={location.icon}
+              />
+            </div>
           </Marker>
         );
       })}
