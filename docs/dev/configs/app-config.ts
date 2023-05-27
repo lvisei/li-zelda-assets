@@ -163,6 +163,20 @@ const config: Application = {
       //   container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       // },
       {
+        id: 'ZeldaMoreControl',
+        type: 'ZeldaMoreControl',
+        metadata: {
+          name: '更多控件',
+        },
+        properties: {
+          position: 'topright',
+        },
+        container: {
+          id: '0ce6afbd-cd82-4879-9639-f2c978fdd920',
+          slot: 'controls',
+        },
+      },
+      {
         id: 'ZeldaLayerControl',
         type: 'ZeldaLayerControl',
         metadata: { name: '图层控件' },
@@ -180,20 +194,6 @@ const config: Application = {
         metadata: { name: '缩放器' },
         properties: { position: 'topleft', showZoom: true },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
-      },
-      {
-        id: 'ZeldaMoreControl',
-        type: 'ZeldaMoreControl',
-        metadata: {
-          name: '更多控件',
-        },
-        properties: {
-          position: 'topright',
-        },
-        container: {
-          id: '0ce6afbd-cd82-4879-9639-f2c978fdd920',
-          slot: 'controls',
-        },
       },
     ],
   },
