@@ -39,3 +39,15 @@ export function getUrlParams(url: string) {
   }
   return obj;
 }
+
+/**
+ * 判断点是否在 bbox 内
+ * @param point
+ * @param lng1
+ * @param lat1
+ * @param lng2
+ * @param lat2
+ */
+export function isPointInPolygon(point: [number, number], [lng1, lat1, lng2, lat2]: number[]) {
+  return point[0] >= lng1 && point[0] <= lng2 && point[1] >= lat1 && point[1] <= lat2;
+}

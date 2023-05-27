@@ -30,7 +30,7 @@ const ZeldaMoreControl: React.FC<ZeldaLayerControlProps> = (props) => {
               </List.Item>
             </List>
           }
-          placement="bottom-end"
+          placement="left"
           mode="dark"
           trigger="click"
         >
