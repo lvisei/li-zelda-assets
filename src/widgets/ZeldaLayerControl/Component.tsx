@@ -1,15 +1,17 @@
 import { CustomControl, useLayerList } from '@antv/larkmap';
 import type { Layer } from '@antv/larkmap/es/types';
-import type { ImplementWidgetProps } from '@antv/li-sdk';
-import { useEventPublish } from '@antv/li-sdk';
+import type { ImplementWidgetProps , LocalDatasetSchema} from '@antv/li-sdk';
+import { useDataset, useEventPublish } from '@antv/li-sdk';
 import classNames from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { getUrlParams } from '../../utils';
 import SvgComponent from '../ZeldaMobileLayout/SvgComponent';
+import type { MarkLocation } from '../ZeldaMobileLayout/types';
 import './Component.less';
 import { CLS_PREFIX } from './constants';
 import type { Properties } from './registerForm';
 
-type ZeldaLayerList = {
+type ZeldaLayer = {
   name: string;
   value: 'sky' | 'ground' | 'underground';
   icon: string;
@@ -20,9 +22,10 @@ type ZeldaLayerList = {
 export interface ZeldaLayerControlProps extends Properties, ImplementWidgetProps {}
 
 const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
-  const { position, undergroundLayerId, groundLayerId, skyLayerId } = props;
+  const { position, undergroundLayerId, groundLayerId, skyLayerId, datasetId } = props;
+  const [dataset] = useDataset<LocalDatasetSchema<MarkLocation>>(datasetId);
   const layerList = useLayerList();
-  const [activedLayerId, setActivedLayerId] = useState<string>();
+  const [activeLayerId, setActiveLayerId] = useState<string>();
   const eventPublisher = useEventPublish();
 
   const zeldaLayerList = useMemo(() => {
@@ -34,17 +37,13 @@ const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
     const list = allLayers
       .filter((layer) => layer.id !== '')
       .map((layer) => ({ ...layer, instance: layerList.find((l) => l.id === layer.id) }))
-      .filter((layer): layer is ZeldaLayerList => layer.instance !== undefined);
+      .filter((layer): layer is ZeldaLayer => layer.instance !== undefined);
 
     return list;
   }, [groundLayerId, layerList, skyLayerId, undergroundLayerId]);
 
-  if (zeldaLayerList.length === 0) {
-    return null;
-  }
-
-  const onClickLayer = (layer: Layer, value: ZeldaLayerList['value']) => {
-    if (layer.id === activedLayerId) return;
+  const onClickLayer = (layer: ZeldaLayer, value: ZeldaLayer['value'], triggerEvent: boolean) => {
+    if (layer.id === activeLayerId) return;
 
     for (const zeldaLayer of zeldaLayerList) {
       if (layer.id === zeldaLayer.id) {
@@ -54,9 +53,32 @@ const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
       }
     }
 
-    setActivedLayerId(layer.id);
-    eventPublisher('zelda-layer-change', value);
+    setActiveLayerId(layer.id);
+    if (triggerEvent) {
+      eventPublisher('zelda-layer-change', value);
+    }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      const { locationId } = getUrlParams(location.href);
+      if (locationId && dataset?.data?.length) {
+        const targetLocation = dataset.data.find((item) => item.id === locationId);
+        if (targetLocation) {
+          const targetLayer = zeldaLayerList.find((layer) => {
+            return layer.value === targetLocation.mapType;
+          });
+          if (targetLayer) {
+            onClickLayer(targetLayer, targetLayer.value, false);
+          }
+        }
+      }
+    }, 100);
+  }, [dataset?.data]);
+
+  if (zeldaLayerList.length === 0) {
+    return null;
+  }
 
   return (
     <CustomControl position={position} className={`${CLS_PREFIX}__control`}>
@@ -66,7 +88,7 @@ const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
           className={classNames(`${CLS_PREFIX}__item`, `${CLS_PREFIX}__zoomBtn`, {
             [`${CLS_PREFIX}__zoomBtn_active`]: layer.instance.isVisible(),
           })}
-          onClick={() => onClickLayer(layer.instance, layer.value)}
+          onClick={() => onClickLayer(layer, layer.value, true)}
         >
           <SvgComponent icon={layer.icon} />
         </div>

@@ -162,6 +162,7 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
 
   const onShare = ({ id }: MarkLocation) => {
     const search = new URLSearchParams(location.search);
+    search.delete('locationId');
     search.append('locationId', id);
     copyText(location.href.split('?')[0] + `?` + search.toString(), '标注链接复制成功');
   };
