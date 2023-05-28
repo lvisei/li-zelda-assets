@@ -181,7 +181,7 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
               className={`${CLS_PREFIX}__markIconContainer`}
               style={{
                 backgroundColor: location.color,
-                opacity: isAchieved(location.id) ? 0.8 : 1,
+                opacity: isAchieved(location.id) ? 0.5 : 1,
               }}
             >
               <SvgComponent
