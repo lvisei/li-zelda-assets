@@ -98,7 +98,7 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
       const _layerType = targetLocation.mapType;
       onFilterChange([targetLocation]);
       setLayerType(_layerType);
-      eventPublisher('zelda-layer-default', _layerType);
+      setTimeout(() => eventPublisher('zelda-layer-default', _layerType), 100);
     }
   }, [dataset?.data]);
 

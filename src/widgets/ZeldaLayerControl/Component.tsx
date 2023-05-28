@@ -1,6 +1,6 @@
 import { CustomControl, useLayerList } from '@antv/larkmap';
 import type { Layer } from '@antv/larkmap/es/types';
-import type { ImplementWidgetProps} from '@antv/li-sdk';
+import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useEventPublish, useEventSubscribe } from '@antv/li-sdk';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
@@ -54,6 +54,7 @@ const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
   };
 
   useEventSubscribe('zelda-layer-default', (layerType: ZeldaLayer['value']) => {
+    console.log('layerType: ', layerType);
     const layer = zeldaLayerList.find((item) => item.value === layerType);
     if (layer) {
       handleActiveLayer(layer);
