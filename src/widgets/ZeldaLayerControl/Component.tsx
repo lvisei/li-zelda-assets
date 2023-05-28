@@ -57,7 +57,6 @@ const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
   };
 
   useEventSubscribe('zelda-layer-default', (layerType: ZeldaLayer['value']) => {
-    console.log('layerType: ', layerType);
     const layer = zeldaLayerList.find((item) => item.value === layerType);
     if (layer) {
       handleActiveLayer(layer);
