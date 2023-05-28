@@ -1,5 +1,6 @@
 import type { LocalDatasetSchema } from '@antv/li-sdk';
 import { useDataset, useEventSubscribe } from '@antv/li-sdk';
+import { useSize } from 'ahooks';
 import type { FloatingPanelRef, SelectorOption } from 'antd-mobile';
 import { Button, FloatingPanel, Grid, List, SearchBar, Selector, Space } from 'antd-mobile';
 import { FilterOutline } from 'antd-mobile-icons';
@@ -26,6 +27,8 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
   const [layerType, setLayerType] = useState('ground');
   const [showSearchPanel, setShowSearchPanel] = useState(false);
   const [searchValue, setSearchValue] = useState<string>();
+  const { width = 0 } = useSize(document.body) ?? {};
+  const isMobile = width <= 1200;
 
   const [selectedGroups, setSelectedGroups] = useState(
     new Map<string, { values: string[]; locations: MarkLocation[] }>(),
@@ -36,35 +39,28 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     [dataset?.data, layerType],
   );
   const groupMap = useMemo(() => {
-    const _groupMap = new Map<string, Map<string, Record<string, any>[]>>();
-    if (!layerData) return _groupMap;
+    const newGroupMap = new Map<string, Map<string, MarkLocation[]>>();
+    if (layerData) {
+      const _data = layerData
+        .filter((item) => item.mapType === layerType)
+        .sort((a, b) => a.groupOrder - b.groupOrder);
 
-    const _data = layerData
-      .filter((item) => item.mapType === layerType)
-      .sort((a, b) => a.groupOrder - b.groupOrder);
-    for (const item of _data) {
-      if (!_groupMap.has(item.group)) {
-        _groupMap.set(item.group, new Map());
-      } else {
-        const categoryMap = _groupMap.get(item.group)!;
-        if (!categoryMap.has(item.category)) {
-          categoryMap.set(item.category, []);
-        } else {
-          const categoryList = categoryMap.get(item.category)!;
-          categoryList.push(item);
+      for (const item of _data) {
+        let categoryMap = newGroupMap.get(item.group);
+        if (!categoryMap) {
+          categoryMap = new Map<string, MarkLocation[]>();
+          newGroupMap.set(item.group, categoryMap);
         }
+
+        let locations = categoryMap.get(item.category);
+        if (!locations) {
+          locations = [];
+          categoryMap.set(item.category, locations);
+        }
+        locations.push(item);
       }
     }
-
-    _groupMap.forEach((categoryMap) => {
-      categoryMap.forEach((categoryList, key) => {
-        if (categoryList.length === 0) {
-          categoryMap.delete(key);
-        }
-      });
-    });
-
-    return _groupMap;
+    return newGroupMap;
   }, [layerData, layerType]);
 
   const groupNames = useMemo(() => [...groupMap.keys()], [groupMap]);
@@ -235,12 +231,20 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     </>
   );
 
-  return (
-    <FloatingPanel anchors={anchors} ref={floatingPanelRef}>
+  const content = (
+    <>
       {renderHeader()}
       {renderBody()}
-      {renderFooter()}
+      {isMobile && renderFooter()}
+    </>
+  );
+
+  return isMobile ? (
+    <FloatingPanel anchors={anchors} ref={floatingPanelRef}>
+      {content}
     </FloatingPanel>
+  ) : (
+    <div className={`${CLS_PREFIX}__sidePanel`}>{content}</div>
   );
 };
 

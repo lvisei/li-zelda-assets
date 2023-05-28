@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@antv/li-sdk": "0.x",
+    "ahooks": "^3.7.7",
     "antd-mobile": "^5.30.0",
     "antd-mobile-icons": "^0.3.0",
     "classnames": "^2.3.1",

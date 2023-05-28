@@ -1,0 +1,28 @@
+@cls-prefix: li-zelda-more-control;
+@layer-btn-size: 32px;
+
+.@{cls-prefix} {
+  width: @layer-btn-size;
+  height: @layer-btn-size;
+  text-align: center;
+  background-color: var(--adm-color-background);
+  border: 1px solid var(--adm-color-border);
+  border-radius: var(--adm-button-border-radius);
+
+  svg {
+    width: 26px;
+    height: @layer-btn-size;
+    color: var(--adm-color-text);
+  }
+}
+
+.adm-popover-inner {
+  background-color: var(--adm-color-background) !important;
+}
+.adm-popover-arrow {
+  color: var(--adm-color-background) !important;
+}
+
+.adm-popover-inner-content {
+  padding: 0 !important;
+}

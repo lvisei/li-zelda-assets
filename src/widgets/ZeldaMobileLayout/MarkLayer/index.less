@@ -2,6 +2,15 @@
 @mark-size: 34px;
 
 .@{cls-prefix} {
+  &__markIconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    border-radius: 34px;
+  }
   &__markIcon {
     font-size: 30px;
   }
@@ -20,6 +29,7 @@
     }
 
     .l7-popup-content {
+      text-align: left;
       background: var(--adm-color-background) !important;
       border-radius: var(--adm-button-border-radius) !important;
     }

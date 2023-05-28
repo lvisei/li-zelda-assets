@@ -1,5 +1,6 @@
 import type { PositionName } from '@antv/l7';
 import type { WidgetRegisterForm, WidgetRegisterFormProps } from '@antv/li-sdk';
+import { getDatasetSelectFormSchema } from '@antv/li-sdk';
 
 /**
  * 获取选择数据源下拉框的 formily 的 Schema 配置
@@ -47,6 +48,8 @@ export type Properties = {
   skyLayerId?: string;
   /** 是否显示侧边栏面板 */
   position?: PositionName;
+  /** 标注数据源 */
+  datasetId: string;
 };
 
 export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> => {
@@ -55,6 +58,7 @@ export default (props: WidgetRegisterFormProps): WidgetRegisterForm<Properties> 
     ...getLayerSelectFormSchema(props, 'undergroundLayerId', '地下图层', true),
     ...getLayerSelectFormSchema(props, 'groundLayerId', '陆地图层', true),
     ...getLayerSelectFormSchema(props, 'skyLayerId', '天空图层', true),
+    ...getDatasetSelectFormSchema(props, 'datasetId', '标注数据源'),
     position: {
       title: '放置方位',
       type: 'string',

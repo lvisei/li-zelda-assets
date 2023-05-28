@@ -26,11 +26,24 @@
   }
 
   &__btnGroup {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     box-sizing: border-box;
     width: 100%;
     padding: 10px;
-    background: #032115;
+    background: var(--adm-color-background);
+  }
+
+  &__sidePanel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    box-sizing: border-box;
+    width: 400px;
+    height: 100vh;
+    padding: 19px 0;
+    overflow-y: auto;
+    background-color: var(--adm-color-background);
   }
 }

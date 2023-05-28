@@ -2,10 +2,17 @@ import { Marker, Popup } from '@antv/larkmap';
 import { useScene } from '@antv/li-sdk';
 import { Button, Swiper } from 'antd-mobile';
 import { LinkOutline } from 'antd-mobile-icons';
+import { debounce } from 'lodash-es';
 import Markdown from 'markdown-to-jsx';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAchieved } from '../../../hooks/useAchieved';
-import { achieved as markAchieved, copyText, isAchieved, unAchieved } from '../../../utils';
+import {
+  achieved as markAchieved,
+  copyText,
+  isAchieved,
+  isPointInPolygon,
+  unAchieved,
+} from '../../../utils';
 import SvgComponent from '../SvgComponent';
 import type { MarkLocation } from '../types';
 import { CLS_PREFIX } from './constants';
@@ -106,9 +113,38 @@ const PopupContent = ({ location }: { location: MarkLocation }) => {
 
 const MarkLayer: React.FC<MarkLayerProps> = (props) => {
   const { locations } = props;
-  const [, { setMapViewState }] = useScene();
+  const [scene, { setMapViewState }] = useScene();
+  const [mapBounds, setMapBounds] = useState<number[]>([]);
 
   const [activedMark, setActivedMark] = useState<MarkLocation>();
+
+  useEffect(() => {
+    const onMapChange = debounce(() => {
+      const bounds = scene?.getBounds();
+      if (bounds) {
+        setMapBounds(bounds.flat());
+      }
+    }, 100);
+    onMapChange();
+    scene?.setMapStatus({
+      rotateEnable: false,
+    });
+    scene?.on('zoomchange', onMapChange);
+    scene?.on('mapmove', onMapChange);
+    return () => {
+      scene?.off('zoomchange', onMapChange);
+      scene?.off('mapmove', onMapChange);
+    };
+  }, [scene]);
+
+  const displayLocations = useMemo(() => {
+    if (locations.length <= 200) {
+      return locations;
+    }
+    return locations.filter(({ longitude, latitude }) => {
+      return isPointInPolygon([longitude, latitude], mapBounds);
+    });
+  }, [locations, mapBounds]);
 
   useEffect(() => {
     if (activedMark) {
@@ -126,13 +162,14 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
 
   const onShare = ({ id }: MarkLocation) => {
     const search = new URLSearchParams(location.search);
+    search.delete('locationId');
     search.append('locationId', id);
     copyText(location.href.split('?')[0] + `?` + search.toString(), '标注链接复制成功');
   };
 
   return (
     <>
-      {locations.map((location) => {
+      {displayLocations.map((location) => {
         return (
           <Marker
             key={location.id}
@@ -140,14 +177,21 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
             lngLat={{ lng: location.longitude, lat: location.latitude }}
             onClick={() => onClickMark(location)}
           >
-            <SvgComponent
-              className={`${CLS_PREFIX}__markIcon`}
+            <div
+              className={`${CLS_PREFIX}__markIconContainer`}
               style={{
-                color: location.color,
+                backgroundColor: location.color,
                 opacity: isAchieved(location.id) ? 0.5 : 1,
               }}
-              icon={location.icon}
-            />
+            >
+              <SvgComponent
+                className={`${CLS_PREFIX}__markIcon`}
+                style={{
+                  color: '#fff',
+                }}
+                icon={location.icon}
+              />
+            </div>
           </Marker>
         );
       })}
