@@ -36,35 +36,28 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     [dataset?.data, layerType],
   );
   const groupMap = useMemo(() => {
-    const _groupMap = new Map<string, Map<string, Record<string, any>[]>>();
-    if (!layerData) return _groupMap;
+    const newGroupMap = new Map<string, Map<string, MarkLocation[]>>();
+    if (layerData) {
+      const _data = layerData
+        .filter((item) => item.mapType === layerType)
+        .sort((a, b) => a.groupOrder - b.groupOrder);
 
-    const _data = layerData
-      .filter((item) => item.mapType === layerType)
-      .sort((a, b) => a.groupOrder - b.groupOrder);
-    for (const item of _data) {
-      if (!_groupMap.has(item.group)) {
-        _groupMap.set(item.group, new Map());
-      } else {
-        const categoryMap = _groupMap.get(item.group)!;
-        if (!categoryMap.has(item.category)) {
-          categoryMap.set(item.category, []);
-        } else {
-          const categoryList = categoryMap.get(item.category)!;
-          categoryList.push(item);
+      for (const item of _data) {
+        let categoryMap = newGroupMap.get(item.group);
+        if (!categoryMap) {
+          categoryMap = new Map<string, MarkLocation[]>();
+          newGroupMap.set(item.group, categoryMap);
         }
+
+        let locations = categoryMap.get(item.category);
+        if (!locations) {
+          locations = [];
+          categoryMap.set(item.category, locations);
+        }
+        locations.push(item);
       }
     }
-
-    _groupMap.forEach((categoryMap) => {
-      categoryMap.forEach((categoryList, key) => {
-        if (categoryList.length === 0) {
-          categoryMap.delete(key);
-        }
-      });
-    });
-
-    return _groupMap;
+    return newGroupMap;
   }, [layerData, layerType]);
 
   const groupNames = useMemo(() => [...groupMap.keys()], [groupMap]);
