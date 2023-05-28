@@ -1,5 +1,5 @@
 import type { LocalDatasetSchema } from '@antv/li-sdk';
-import { useDataset, useEventSubscribe } from '@antv/li-sdk';
+import { useDataset, useEventPublish, useEventSubscribe } from '@antv/li-sdk';
 import { useSize } from 'ahooks';
 import type { FloatingPanelRef, SelectorOption } from 'antd-mobile';
 import { Button, FloatingPanel, Grid, List, SearchBar, Selector, Space } from 'antd-mobile';
@@ -65,6 +65,8 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
 
   const groupNames = useMemo(() => [...groupMap.keys()], [groupMap]);
 
+  const eventPublisher = useEventPublish();
+
   const handleSelected = (
     _selectedGroups: Map<string, { values: string[]; locations: MarkLocation[] }>,
   ) => {
@@ -93,7 +95,10 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     }
     const targetLocation = dataset?.data?.find((location) => location.id === locationId);
     if (targetLocation) {
+      const _layerType = targetLocation.mapType;
       onFilterChange([targetLocation]);
+      setLayerType(_layerType);
+      eventPublisher('zelda-layer-default', _layerType);
     }
   }, [dataset?.data]);
 

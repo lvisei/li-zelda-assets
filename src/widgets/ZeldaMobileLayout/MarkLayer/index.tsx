@@ -126,9 +126,6 @@ const MarkLayer: React.FC<MarkLayerProps> = (props) => {
       }
     }, 100);
     onMapChange();
-    scene?.setMapStatus({
-      rotateEnable: false,
-    });
     scene?.on('zoomchange', onMapChange);
     scene?.on('mapmove', onMapChange);
     return () => {
