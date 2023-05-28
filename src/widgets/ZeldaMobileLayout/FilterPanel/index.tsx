@@ -1,5 +1,6 @@
 import type { LocalDatasetSchema } from '@antv/li-sdk';
 import { useDataset, useEventSubscribe } from '@antv/li-sdk';
+import { useSize } from 'ahooks';
 import type { FloatingPanelRef, SelectorOption } from 'antd-mobile';
 import { Button, FloatingPanel, Grid, List, SearchBar, Selector, Space } from 'antd-mobile';
 import { FilterOutline } from 'antd-mobile-icons';
@@ -26,6 +27,8 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
   const [layerType, setLayerType] = useState('ground');
   const [showSearchPanel, setShowSearchPanel] = useState(false);
   const [searchValue, setSearchValue] = useState<string>();
+  const { width = 0 } = useSize(document.body) ?? {};
+  const isMobile = width <= 1200;
 
   const [selectedGroups, setSelectedGroups] = useState(
     new Map<string, { values: string[]; locations: MarkLocation[] }>(),
@@ -228,12 +231,20 @@ const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     </>
   );
 
-  return (
-    <FloatingPanel anchors={anchors} ref={floatingPanelRef}>
+  const content = (
+    <>
       {renderHeader()}
       {renderBody()}
-      {renderFooter()}
+      {isMobile && renderFooter()}
+    </>
+  );
+
+  return isMobile ? (
+    <FloatingPanel anchors={anchors} ref={floatingPanelRef}>
+      {content}
     </FloatingPanel>
+  ) : (
+    <div className={`${CLS_PREFIX}__sidePanel`}>{content}</div>
   );
 };
 
