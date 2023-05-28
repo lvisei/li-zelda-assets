@@ -186,6 +186,7 @@ const config: Application = {
           undergroundLayerId: 'b0c70759-7706-49c6-b98e-635624e8c6f4',
           groundLayerId: 'ab8af73f-fd47-4607-9eb2-686bef746e06',
           skyLayerId: '7f4c248c-33cd-4133-842e-e256344d590c',
+          datasetId: '3b8eac94-4114-4a24-83c5-8a2a21ab79d8',
         },
         container: { id: '0ce6afbd-cd82-4879-9639-f2c978fdd920', slot: 'controls' },
       },

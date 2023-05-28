@@ -3,8 +3,10 @@ import type { Layer } from '@antv/larkmap/es/types';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
 import { useEventPublish, useEventSubscribe } from '@antv/li-sdk';
 import classNames from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { getUrlParams } from '../../utils';
 import SvgComponent from '../ZeldaMobileLayout/SvgComponent';
+import type { MarkLocation } from '../ZeldaMobileLayout/types';
 import './Component.less';
 import { CLS_PREFIX } from './constants';
 import type { Properties } from './registerForm';
@@ -20,7 +22,8 @@ type ZeldaLayer = {
 export interface ZeldaLayerControlProps extends Properties, ImplementWidgetProps {}
 
 const ZeldaLayerControl: React.FC<ZeldaLayerControlProps> = (props) => {
-  const { position, undergroundLayerId, groundLayerId, skyLayerId } = props;
+  const { position, undergroundLayerId, groundLayerId, skyLayerId, datasetId } = props;
+  const [dataset] = useDataset<LocalDatasetSchema<MarkLocation>>(datasetId);
   const layerList = useLayerList();
   const [activeLayerId, setActiveLayerId] = useState<string>();
   const eventPublisher = useEventPublish();
