@@ -76,6 +76,7 @@ const config: Application = {
         maxBounds: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
         pitch: 0,
         bearing: 0,
+        rotateEnable: false,
         style: 'dark',
         WebGLParams: { preserveDrawingBuffer: true },
       },
