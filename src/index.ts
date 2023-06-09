@@ -1,9 +1,9 @@
-import type { Asset } from '@antv/li-sdk';
+import type { AssetPackage } from '@antv/li-sdk';
 import * as Widgets from './widgets';
 
 export * from './widgets';
 
-const TemplateAsset: Asset = {
+const TemplateAsset: AssetPackage = {
   version: 'v0.3',
   widgets: Object.values(Widgets),
   layers: [],
