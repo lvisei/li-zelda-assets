@@ -4,15 +4,18 @@
 .@{cls-prefix} {
   width: @layer-btn-size;
   height: @layer-btn-size;
+  color: var(--adm-color-text-secondary) !important;
   text-align: center;
   background-color: var(--adm-color-background);
-  border: 1px solid var(--adm-color-border);
   border-radius: var(--adm-button-border-radius);
+
+  :hover {
+    color: var(--adm-color-text);
+  }
 
   svg {
     width: 26px;
     height: @layer-btn-size;
-    color: var(--adm-color-text);
   }
 }
 
