@@ -1,0 +1,10 @@
+diff --git a/node_modules/antd-mobile/es/global/index.js b/node_modules/antd-mobile/es/global/index.js
+index a42decc..1347489 100644
+--- a/node_modules/antd-mobile/es/global/index.js
++++ b/node_modules/antd-mobile/es/global/index.js
+@@ -1,4 +1,4 @@
+-import "./global.css";
++// import "./global.css";
+ import { canUseDom } from '../utils/can-use-dom';
+ if (canUseDom) {
+   // Make sure the `:active` CSS selector of `button` and `a` take effect
