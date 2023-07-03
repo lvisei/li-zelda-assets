@@ -9,6 +9,7 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "lib/index.d.ts",
+  "jsdelivr": "dist/li-template-assets.min.js",
   "unpkg": "dist/li-template-assets.min.js",
   "files": [
     "dist",
