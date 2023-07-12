@@ -1,7 +1,7 @@
-import { CustomControl, useLayerList } from '@antv/larkmap';
+import { CustomControl } from '@antv/larkmap';
 import type { Layer } from '@antv/larkmap/es/types';
 import type { ImplementWidgetProps } from '@antv/li-sdk';
-import { useEventPublish, useEventSubscribe } from '@antv/li-sdk';
+import { useEventPublish, useEventSubscribe, useLayerList } from '@antv/li-sdk';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
 import SvgComponent from '../ZeldaMobileLayout/SvgComponent';
