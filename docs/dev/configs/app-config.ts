@@ -15,13 +15,11 @@ const config: Application = {
       metadata: { name: 'Groundtiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
         url: 'https://cdn.jsdelivr.net/gh/Slluxx/TOTK-Interactive-Map@tiles/assets/tiles/groundtiles/{z}/{x}/{y}.png',
-        parser: {
-          type: 'rasterTile',
-          tileSize: 256,
-          minZoom: 0,
-          maxZoom: 7,
-          extent: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
-        },
+        type: 'xyz-tile',
+        tileSize: 256,
+        minZoom: 0,
+        maxZoom: 7,
+        extent: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
       },
     },
     {
@@ -30,13 +28,11 @@ const config: Application = {
       metadata: { name: 'Skytiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
         url: 'https://cdn.jsdelivr.net/gh/Slluxx/TOTK-Interactive-Map@tiles/assets/tiles/skytiles/{z}/{x}/{y}.png',
-        parser: {
-          type: 'rasterTile',
-          tileSize: 256,
-          minZoom: 0,
-          maxZoom: 7,
-          extent: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
-        },
+        type: 'xyz-tile',
+        tileSize: 256,
+        minZoom: 0,
+        maxZoom: 7,
+        extent: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
       },
     },
     {
@@ -45,13 +41,11 @@ const config: Application = {
       metadata: { name: 'Undergroundtiles', description: 'XYZ Tile', serviceType: 'XYZ Tile' },
       properties: {
         url: 'https://cdn.jsdelivr.net/gh/Slluxx/TOTK-Interactive-Map@tiles/assets/tiles/undergroundtiles/{z}/{x}/{y}.png',
-        parser: {
-          type: 'rasterTile',
-          tileSize: 256,
-          minZoom: 0,
-          maxZoom: 7,
-          extent: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
-        },
+        type: 'xyz-tile',
+        tileSize: 256,
+        minZoom: 0,
+        maxZoom: 7,
+        extent: [-180, 15.04206005516698, 17.75066182074289, 85.051355],
       },
     },
     {
